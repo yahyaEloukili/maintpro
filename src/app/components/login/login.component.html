@@ -1,0 +1,65 @@
+<body class="">
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper" style="padding: 0px;">
+      <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+        <div class="row w-100">
+          <div class="col-lg-4 mx-auto">
+            <div class="auto-form-wrapper" style="width: 500px;">
+              <flash-messages></flash-messages>
+              <form #userForm="ngForm" (ngSubmit)="onLoginSubmit(userForm)">
+                <div class="form-group">
+                  <label class="label">Address email</label>
+                  <div>
+                    <input type="text" [(ngModel)]="user.email" name="email" class="form-control" #email="ngModel"
+                      [ngClass]="{
+                      'is-invalid': email.errors && email.touched
+                    }" required placeholder="Identifiant"
+                      pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
+
+                    <div class="invalid-feedback" [hidden]="!email.errors?.required">
+                      le champs email est obligatoire
+                    </div>
+                    <div class="invalid-feedback" [hidden]="!email.errors?.pattern">
+                      Entrer une adress email valide
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label">Mot de passe</label>
+                  <div class="input-group">
+                    <input type="password" [(ngModel)]="user.password" name="password" #password="ngModel"
+                      class="form-control" [ngClass]="{
+                      'is-invalid': password.errors && password.touched
+                    }" required placeholder="*********">
+                    <div class="invalid-feedback" [hidden]="!password.errors?.required">
+                      le champs password est obligatoire
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top: 32px;">
+                  <button class="btn btn-primary submit-btn btn-block" type="submit">Se connecter</button>
+                </div>
+                <div class="form-group d-flex justify-content-between">
+                  <div class="form-check form-check-flat mt-0">
+                    <label class="form-check-label">
+                    </label>
+                  </div>
+                  <a [routerLink]="['/resetPassword2']" class="text-small forgot-password text-black">Modifier
+                    password</a>
+                </div>
+
+              </form>
+            </div>
+            <ul class="auth-footer">
+
+            </ul>
+            <p class="footer-text text-center">Copyright © 2020 OCP-MS. Tous droits réservés.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>

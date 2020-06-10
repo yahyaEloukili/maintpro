@@ -1,0 +1,48 @@
+<div style="margin: auto;">
+  <h2 style="text-align: center;" class="mb-4">Liste des etudes de cas</h2>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Theme:</label>
+      <select name="theme" (ngModelChange)="themeClicked($event)" [ngModel]="'SÉLECTIONNER UN THEME'" #theme="ngModel"
+        class="form-control" value="SÉLECTIONNER UN THEME">
+        <option selected value="SÉLECTIONNER UN THEME">SÉLECTIONNER UN THEME</option>
+        <option *ngFor="let theme of themes" [ngValue]="theme.id">{{theme.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label>Metier:</label>
+      <select name="metier" (ngModelChange)="metierClicked($event)" class="form-control" [ngModel]="" #metier="ngModel">
+        <option *ngFor="let metier of metiers" [ngValue]="metier.id">{{metier.name}}</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="mb-1">
+    <button (click)="downloadAsPDF()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Pdf</button>&nbsp;&nbsp;
+    <button (click)="exportAsXLSX()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Excel</button>&nbsp;&nbsp;
+    <button (click)="onBtnExport()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Csv</button>
+    <div id="pdfTable" #pdfTable>
+    </div>
+  </div>
+  <ag-grid-angular style=" height: 80vh; " class="ag-theme-alpine mt-2" #agGrid rowSelection="multiple"
+    [columnDefs]="columnDefs" [pagination]="true" [animateRows]="true" [paginationPageSize]="30"
+    [frameworkComponents]="frameworkComponents" (gridReady)=(onGridReady($event)) [isRowSelectable]="false"
+    [suppressCellSelection]="false"> </ag-grid-angular>
+
+</div>
+<div class="row" style="display: center; align-items: center; justify-content: center;">
+  <div class="col-md-4">
+
+    <button (click)="onDeleteClick()" class=" btn btn-block  btn-danger mt-3">Supprimer</button>
+
+  </div>
+  <div class="col-md-4">
+
+    <button (click)="onAddButtonClick()" class=" btn btn-block   btn-success mt-3">Ajouter</button>
+
+  </div>
+</div>

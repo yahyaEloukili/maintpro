@@ -1,0 +1,32 @@
+<div style="margin: auto;">
+  <h2 style="text-align: center;" class="mb-4">Liste des utilisateurs</h2>
+  <div class="mb-1">
+    <button (click)="downloadAsPDF()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Pdf</button>&nbsp;&nbsp;
+    <button (click)="exportAsXLSX()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Excel</button>&nbsp;&nbsp;
+    <button (click)="onBtnExport()" class="btn btn-sm btn-success mt-2"
+      style="background-color: #163441;color: #fdb82f; border-color: #163441;">Csv</button>
+    <div id="pdfTable" #pdfTable>
+    </div>
+  </div>
+  <ag-grid-angular style=" height: 80vh; " class="ag-theme-alpine" #agGrid [suppressHorizontalScroll]="true"
+    rowSelection="multiple" [columnDefs]="columnDefs" [pagination]="true" [animateRows]="true"
+    (gridReady)=(onGridReady($event)) [isRowSelectable]="false" [suppressCellSelection]="true"
+    [frameworkComponents]="frameworkComponents">
+  </ag-grid-angular>
+  <div class="row" style="display: center; align-items: center; justify-content: center;">
+    <div class="col-md-4">
+
+      <button (click)="showData()" class=" btn btn-block  btn-danger mt-3">Supprimer</button>
+
+    </div>
+    <div class="col-md-4">
+
+      <button (click)="onAddButtonClick()" class=" btn btn-block   btn-success mt-3">Ajouter</button>
+
+    </div>
+  </div>
+
+
+</div>

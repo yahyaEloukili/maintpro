@@ -1,0 +1,65 @@
+<section id="details">
+  <div class="container">
+    <div class="col-md-3">
+      <a [routerLink]="['/metiers']" class="btn btn-secondary btn-block">
+        <i class="fas fa-arrow-left"></i><span style="color: white;">Liste de metiers</span>
+      </a>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <div class="card">
+          <div class="card-header " style="text-align:center;">
+            <h4>Modifier un metier</h4>
+          </div>
+          <div class="card-body">
+            <flash-messages></flash-messages>
+            <form #metierForm="ngForm" (ngSubmit)="onEditMetier(metierForm)" enctype="multipart/form-data">
+              <div class="row">
+
+
+                <div class="col-md-6">
+                  <div class="form-group" style="text-align:center;">
+                    <label for="nom">Nom <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" name="name" [ngModel]="metier?.name"
+                      (ngModel)="(metier?.name)" #name="ngModel" [ngClass]="{
+                              'is-invalid': (name.errors && name.touched) || (errorNom && !valueNom  )
+                            }" required (keyup)='clickNom($event)' />
+                    <div class="invalid-feedback" [hidden]="!name.errors?.required && !errorNom">
+                      le champs nom est obligatoire
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="">Theme : <span>*</span></label>
+                    <select name="theme" id="theme" class="form-control" (ngModelChange)="setTheme($event)"
+                      [ngModel]="metier?.themeId" #theme="ngModel" [ngClass]="{
+                              'is-invalid': theme.errors && theme.touched
+                            }" required>
+                      <option *ngFor="let theme of themes" [ngValue]="theme.id">{{
+                              theme.name
+                            }}</option>
+                    </select>
+
+                    <div class="invalid-feedback" [hidden]="!theme.errors?.required">
+                      le champs theme est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="display: center; align-items: center; justify-content: center;">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-block btn-success">
+                    <i class="fas fa-plus"></i> Modifier
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

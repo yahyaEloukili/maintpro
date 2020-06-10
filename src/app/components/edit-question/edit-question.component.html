@@ -1,0 +1,197 @@
+<div style="overflow-y: scroll;overflow-x: hidden" class="container">
+  <div class="col-md-3">
+    <a [routerLink]="['/questions']" class="btn btn-secondary btn-block">
+      <i class="fas fa-arrow-left"></i> Liste de questions
+    </a>
+  </div>
+  <div class=" text-center mt-5 ">
+    <h1>Modifier Question</h1>
+  </div>
+  <div class="row ">
+    <div class="col-lg-12 mx-auto">
+      <div class="card mt-2 mx-auto p-4 bg-light">
+        <div class="card-body bg-light">
+          <div class="container">
+            <flash-messages></flash-messages>
+            <form [formGroup]="GlobalForm" (ngSubmit)="submitform()" novalidate autocomplete="false" id="contact-form"
+              role="form">
+              <div class="controls">
+                <ng-container formGroupName="question">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="form_enonce">Énoncé*</label>
+                        <textarea formControlName="enonce" id="form_enonce" name="message" class="form-control"
+                          placeholder="Write your message here." rows="4" required="required"
+                          data-error="Please, leave us a message."></textarea>
+                        <em style="color: red"
+                          *ngIf="!validChamp('enonce') && questionForm.controls.enonce.errors.required">Champ
+                          Obligatoire*</em>
+                        <em style="color: red"
+                          *ngIf="!validChamp('enonce') && questionForm.controls.enonce.errors.minlength">minimum de 7
+                          caractères*</em>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Théme*</label>
+                      <span *ngIf="themeLoading" style="position: relative;top: 29px;">
+                        <app-loader></app-loader>
+                      </span>
+                      <select [value]="currTheme.themeId || ''" (change)="themeChange($event)"
+                        *ngIf="themes && currTheme" formControlName="theme" class="form-control">
+                        <option selected value="">SÉLECTIONNER UN THEME</option>
+                        <option *ngFor="let theme of themes" [value]="theme.id">{{theme.name}}</option>
+                      </select>
+                      <em style="color: red"
+                        *ngIf="!validChamp('theme') && questionForm.controls.theme.errors.required">Champ
+                        Obligatoire*</em>
+                    </div>
+                    <div class="col-md-6">
+                      <label>Metier*</label>
+                      <span *ngIf="metierLoading" style="position: relative;top: 29px;">
+                        <app-loader></app-loader>
+                      </span>
+                      <select *ngIf="validChamp('theme') && metiers" [value]="mainquestion.metierId || ''"
+                        formControlName="metier" class="form-control">
+                        <option selected value="">SÉLECTIONNER UNE METIER</option>
+                        <option *ngFor="let metier of metiers" [value]="metier.id">{{metier.name}}</option>
+                      </select>
+                      <em style="color: red"
+                        *ngIf="!validChamp('metier') && questionForm.controls.metier.errors.required">Champ
+                        Obligatoire*</em>
+                    </div>
+                  </div>
+                </ng-container>
+                <div><br>
+                  <fieldset style="padding: 5px 12px;border: grey solid 2px;">
+                    <legend>Réponses</legend>
+                    <app-loader *ngIf="!mainquestion"></app-loader>
+                    <table *ngIf="mainquestion" class="table">
+                      <thead>
+                        <tr>
+                          <th>ÉNONCÉ</th>
+                          <th>CORRECTE</th>
+                          <th>actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let ans of mainquestion.answers" [ngClass]="ans.correct?'success':'danger'">
+                          <td>{{ans.text}}</td>
+                          <td>{{ans.correct?'Correcte':'Incorrecte'}}</td>
+                          <td>
+                            <!--a target="_blank" rel="noopener noreferrer" [href]="'/editanswer/' + ans.id">Edit</a-->
+                            <button type="button" style="margin-left: 9px" (click)="deleteanswer(ans.id)"
+                              class="btn btn-danger">delete</button>
+                            <button type="button" style="margin-left: 9px" (click)="openModal(ans)"
+                              class="btn btn-primary">edit</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </fieldset><br>
+
+                  <fieldset style="padding: 0 12px;border: grey solid 2px;">
+                    <legend>
+                      Ajouter des Réponses
+                      <button (click)="reponseFormFactory()" style="width: 30px;height: 30px;padding-right: 25px"
+                        class="glow-on-hover" type="button"><strong style="font-size: 30px;">+</strong></button>
+                    </legend>
+                    <ng-container formGroupName="reponses">
+                      <div *ngFor="let item of FormArray.controls;let i = index" [formGroupName]="i" class="row">
+                        <div class="col-md-10">
+                          <div class="form-group">
+                            <label for="form_enonce_rep">
+                              Énoncé*
+                              <i (click)="removeSouEqForm(i)" style="font-size: 15px;cursor: pointer"
+                                class="glyphicon glyphicon-trash"></i>
+                            </label>
+                            <textarea formControlName="repenonce" id="form_enonce_rep" name="message"
+                              class="form-control" placeholder="Write your message here." rows="4" required="required"
+                              data-error="Please, leave us a message."></textarea>
+                            <em style="color: red"
+                              *ngIf="!validArrayChamp('repenonce',i) && item.controls.repenonce.errors.required">Champ
+                              Obligatoire*</em>
+                            <em style="color: red"
+                              *ngIf="!validArrayChamp('repenonce',i) && item.controls.repenonce.errors.minlength">Minimum
+                              de 7 charactéres*</em>
+                          </div><br>
+                          <div style="margin-left: -5px" class="col-md-1">
+                            <app-checkcorrect [formArraycheck]="item.controls.repcorrect" [idcheck]="i+50">
+                            </app-checkcorrect>
+                          </div>
+                          <div style="margin: -25px 0 0 -15px;padding: 0px;" class="col-md-5">
+                            <h5 [style.color]="item.controls.repcorrect.value?'#2dd36f':'#eb445a'">
+                              {{item.controls.repcorrect.value?'Correcte':'Incorrecte'}}
+                            </h5>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <hr style="color: gainsboro;">
+                    <div class="col-md-4"></div>
+                    <div style="margin-bottom: 5px" class="col-md-4">
+                      <input *ngIf="FormArray.length > 0" (click)="clearArrayForm()"
+                        class="btn btn-danger btn-send pt-2 btn-block " value="clear All"> </div>
+                    <div class="col-md-4"></div>
+                  </fieldset>
+                </div>
+                <br />
+                <div class="row" style="display: center; align-items: center; justify-content: center;">
+                  <div class="col-md-6">
+                    <app-loader *ngIf="isLoading"></app-loader>
+                    <input *ngIf="!isLoading" type="submit" class="btn btn-primary btn-send pt-2 btn-block "
+                      value="Edit">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> <!-- /.8 -->
+    </div> <!-- /.row-->
+  </div>
+</div>
+
+<div class="modal hidden">
+  <div class="container">
+    <div class="body">
+      <form [formGroup]="modalForm">
+        <div class="row">
+          <div class="col-md-10">
+            <label for="form_enonce_rep">
+              Énoncé*
+            </label>
+            <textarea formControlName="modalenonce" id="form_enonce_rep_modal" name="message" class="form-control"
+              placeholder="Write your message here." rows="4" required="required"
+              data-error="Please, leave us a message."></textarea>
+            <em style="color: red;float: left"
+              *ngIf="!validModalChamp('modalenonce') && modalForm.controls.modalenonce.errors.required">Champ
+              Obligatoire*</em>
+            <em style="color: red;float: left"
+              *ngIf="!validModalChamp('modalenonce') && modalForm.controls.modalenonce.errors.minlength">Minimum de 7
+              charactéres*</em>
+            <br>
+            <div style="margin: 30px 0 0 -13%" class="col-md-4">
+              <app-checkcorrect [ischecked]="modalAns?.correct" [formArraycheck]="modalcheck" [idcheck]="'mod25'">
+              </app-checkcorrect>
+              <h5 style="margin: -49px -100% 0px 0;" [style.color]="false?'#2dd36f':'#eb445a'">
+                {{false?'Correcte':'Incorrecte'}}
+              </h5>
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div *ngIf="!isLoading" style="margin-top: 5px" class="col-md-1">
+            <input type="submit" style="width: 75px" (click)="updateModalAns()" class="btn btn-primary" value="edit" />
+          </div>
+          <div style="margin-top: 10px" *ngIf="isLoading" class="col-md-3">
+            <app-loader></app-loader>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

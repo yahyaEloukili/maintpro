@@ -1,0 +1,82 @@
+<section id="details">
+  <div class="container">
+    <div class="col-md-3">
+      <a [routerLink]="['/metiers']" class="btn btn-secondary btn-block">
+        <i class="fas fa-arrow-left"></i> Liste de metiers
+      </a>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-12" style="height: 100vh;">
+        <div class="card">
+          <div class="card-header " style="text-align:center;">
+            <h4>Ajouter un metier</h4>
+          </div>
+          <div class="card-body">
+            <flash-messages></flash-messages>
+            <form #categorietForm="ngForm" (ngSubmit)="onAddMetier(categorietForm)" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style="text-align:center;">
+                    <label for="nom">Nom <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" name="name" [(ngModel)]="metier.name" #name="ngModel"
+                      [ngClass]="{
+                            'is-invalid': (name.errors && name.touched) || (errorNom && !valueNom  )
+                          }" required (keyup)='clickNom($event)' />
+                    <div class="invalid-feedback" [hidden]="!name.errors?.required && !errorNom">
+                      le champs nom est obligatoire
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Theme
+                      <span style="color: red;">*</span></label>
+                    <select name="theme" class="form-control" [ngModel]="" (ngModelChange)="setTheme($event)"
+                      #theme="ngModel" (click)='clickTheme($event)' [ngClass]="{
+                        'is-invalid': (theme.errors && theme.touched ) || (errorTheme && !valueTheme )
+                      }" required>
+                      <option *ngFor="let theme of themes" [ngValue]="theme.id" class="option">
+                        {{ theme.name }}</option>
+                    </select>
+                    <div class="invalid-feedback" [hidden]="!theme.errors?.required && !errorTheme">
+                      le champs categorie est obligatoire
+                    </div>
+
+                  </div>
+                  <!-- <div class="col-md-6">
+                  <label for="appareil" class="">appareil :</label>
+                  <div (click)="setErrorAppareil()">
+
+
+                    <ng-select2 class="custom" name="appareil" [data]="appareils" [width]="550"
+                      [ngClass]="{'form-control': true,'border border-danger':errorAppareil }"
+                      (valueChanged)="setAppareil($event)">
+                    </ng-select2>
+                  </div>
+                  <small *ngIf="errorAppareil" style="color: red;">le champs appareil est obligatoire !</small>
+
+                </div> -->
+
+
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="row" style="display: center; align-items: center; justify-content: center;">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-block btn-success">
+                    <i class="fas fa-plus"></i> Ajouter
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

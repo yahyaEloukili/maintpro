@@ -1,0 +1,85 @@
+<section id="details">
+  <div class="container">
+    <div class="col-md-3">
+      <a [routerLink]="['/users']" class="btn btn-secondary btn-block">
+        <i class="fas fa-arrow-left"></i> Liste des utilisateurs
+      </a>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <div class="card">
+          <div class="card-header " style="text-align:center;">
+            <h4>Modifier l'utilisateur</h4>
+          </div>
+          <div class="card-body">
+            <form #userForm="ngForm" (ngSubmit)="onEditUser(userForm)">
+              <div class="row" style="text-align:center;">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nom">nom : <span>*</span></label>
+                    <input type="text" class="form-control" name="nom" [ngModel]="user?.nom" #nom="ngModel" [ngClass]="{
+                              'is-invalid': (nom.errors && nom.touched) || (errorNom && !valueNom  )
+                            }" required (keyup)='clickNom($event)' />
+                    <div class="invalid-feedback" [hidden]="!nom.errors?.required && !errorNom">
+                      le champs nom est obligatoire
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row" style="text-align:center;">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Email : <span>*</span></label>
+                    <input type="text" class="form-control" name="email" [ngModel]="user?.email" #email="ngModel"
+                      [ngClass]="{
+                              'is-invalid': (email.errors && email.touched) || (errorEmail && !valueEmail  )
+                            }" required
+                      pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                      (keyup)='clickEmail($event)' />
+                    <div class="invalid-feedback" [hidden]="!email.errors?.required && !errorEmail">
+                      Le champs email est obligatoire
+                    </div>
+                    <div class="invalid-feedback" [hidden]="!email.errors?.pattern">
+                      L'email n'est pas valide
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="etat">Role : <span>*</span> </label>
+                    <select name="role" id="role" class="form-control" (ngModelChange)="setRole($event)"
+                      [ngModel]="user?.role" #role="ngModel" [ngClass]="{
+                                'is-invalid': role.errors && role.touched
+                              }" required>
+                      <option value="admin">Administrateur</option>
+                      <option value="user">Utilisateur</option>
+                    </select>
+
+                    <div class="invalid-feedback" [hidden]="!role.errors?.required">
+                      le champs role est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="text-align:center;">
+
+              </div>
+
+              <div class="row" style="display: center; align-items: center; justify-content: center;">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-block btn-success" *ngIf="!adding">
+                    <i class="fas fa-plus"></i> Modifier
+                  </button>
+                  <button type="submit" class="btn btn-block" style="background-color: #a5d6a7;" *ngIf="adding">
+                    En cours de modification
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

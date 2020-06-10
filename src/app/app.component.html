@@ -1,0 +1,264 @@
+<div class="container-scroller" *ngIf="authService.loggedIn()">
+  <!-- partial:../../partials/_navbar.html -->
+  <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row" *ngIf="authService.loggedIn()">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+      <a class="navbar-brand brand-logo" [routerLink]="['/']">
+        <img src="../assets/images/logo.svg" alt="logo" /> </a>
+
+      <a class="navbar-brand brand-logo-mini" [routerLink]="['/']">
+        <img src="../assets/images/logo-mini.svg" alt="logo" /> </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center">
+      <ul class="navbar-nav">
+
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
+            aria-labelledby="messageDropdown">
+
+            <a class="dropdown-item py-3">
+              <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
+              <span class="badge badge-pill badge-primary float-right">View all</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item preview-item">
+              <div class="preview-thumbnail">
+                <img src="../assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic"> </div>
+              <div class="preview-item-content flex-grow py-2">
+                <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
+                <p class="font-weight-light small-text"> The meeting is cancelled </p>
+              </div>
+            </a>
+            <a class="dropdown-item preview-item">
+              <div class="preview-thumbnail">
+                <img src="../assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic"> </div>
+              <div class="preview-item-content flex-grow py-2">
+                <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
+                <p class="font-weight-light small-text"> The meeting is cancelled </p>
+              </div>
+            </a>
+            <a class="dropdown-item preview-item">
+              <div class="preview-thumbnail">
+                <img src="../assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic"> </div>
+              <div class="preview-item-content flex-grow py-2">
+                <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
+                <p class="font-weight-light small-text"> The meeting is cancelled </p>
+              </div>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-toggle="dropdown">
+
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
+            aria-labelledby="notificationDropdown">
+            <a class="dropdown-item py-3 border-bottom">
+              <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
+              <span class="badge badge-pill badge-primary float-right">View all</span>
+            </a>
+            <a class="dropdown-item preview-item py-3">
+              <div class="preview-thumbnail">
+                <i class="mdi mdi-alert m-auto text-primary"></i>
+              </div>
+              <div class="preview-item-content">
+                <h6 class="preview-subject font-weight-normal text-dark mb-1">Application Error</h6>
+                <p class="font-weight-light small-text mb-0"> Just now </p>
+              </div>
+            </a>
+            <a class="dropdown-item preview-item py-3">
+              <div class="preview-thumbnail">
+                <i class="mdi mdi-settings m-auto text-primary"></i>
+              </div>
+              <div class="preview-item-content">
+                <h6 class="preview-subject font-weight-normal text-dark mb-1">Settings</h6>
+                <p class="font-weight-light small-text mb-0"> Private message </p>
+              </div>
+            </a>
+            <a class="dropdown-item preview-item py-3">
+              <div class="preview-thumbnail">
+                <i class="mdi mdi-airballoon m-auto text-primary"></i>
+              </div>
+              <div class="preview-item-content">
+                <h6 class="preview-subject font-weight-normal text-dark mb-1">New user registration</h6>
+                <p class="font-weight-light small-text mb-0"> 2 days ago </p>
+              </div>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
+
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav" style="margin-right: 20px;">
+        <li class="nav-item logout" *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+          <a href="#" class="nav-link" (click)="onLogoutClick()">
+            <i class="fa fa-sign-out"></i> Se deconnecter
+          </a>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+        data-toggle="offcanvas">
+        <span class="mdi mdi-menu"></span>
+      </button>
+    </div>
+  </nav>
+  <!-- partial -->
+
+  <div class="container-fluid page-body-wrapper" style="padding-left: 0px;padding-right: 0px">
+    <!-- partial:../../partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item nav-profile">
+          <div class="nav-link">
+            <div class="profile-image">
+
+
+            </div>
+            <div class="text-wrapper">
+              <p class="profile-name"></p>
+              <p class="designation ">Administrateur</p>
+              <span style=" margin-left: 20%; margin-top: 30px;color: #fdb82f;">{{user}}</span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item nav-category">Menu principal</li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title"><i class="fa fa-question-circle"></i>&nbsp;&nbsp; Questions</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+                <a class="nav-link" [routerLink]="['/questions']" class="nav-link active">Liste de questions</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/addQuestion']" class="nav-link active">Ajouter question</a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title"><i class="fas fa-comment-alt"></i>&nbsp;&nbsp; Etudes de cas</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic2">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+                <a class="nav-link" [routerLink]="['/studyCases']" class="nav-link active">Liste d'étude de cas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/addStudyCase']" class="nav-link active">Ajouter étude de cas</a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic7" aria-expanded="false" aria-controls="ui-basic">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title"><i class="fa fa-tasks"></i>&nbsp;&nbsp;Métiers</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic7">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+                <a class="nav-link" [routerLink]="['/metiers']" class="nav-link active">Liste de métiers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/addMetier']" class="nav-link active">Ajouter métiers</a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title"><i class="fa fa-list"></i>&nbsp;&nbsp;Thémes</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic3">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+                <a class="nav-link" [routerLink]="['/themes']" class="nav-link active">Liste de thèmes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/addTheme']" class="nav-link active">Ajouter thème</a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic6" aria-expanded="false" aria-controls="ui-basic">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title"><i class="fa fa-user"></i>&nbsp;&nbsp;Utilisateurs</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic6">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="authService.loggedIn() && authService.user.role === 'admin'">
+                <a class="nav-link" [routerLink]="['/users']" class="nav-link active">Liste d'utilisateurs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/addUser']" class="nav-link active">Ajouter utilisateur</a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
+
+      </ul>
+    </nav>
+
+
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+
+        <router-outlet>
+
+        </router-outlet>
+
+
+
+
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid clearfix">
+          <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2020 .Ocp MS </span>
+          <span class="text-muted  float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Tous droits réservés.
+          </span>
+        </div>
+      </footer>
+      <!-- page-body-wrapper ends -->
+    </div>
+
+  </div>
+</div>
+<div *ngIf="!authService.loggedIn()">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,61 @@
+<section id="details">
+  <div class="container">
+    <div class="col-md-3">
+      <a [routerLink]="['/themes']" class="btn btn-secondary btn-block">
+        <i class="fas fa-arrow-left"></i><span style="color: white;">Liste de themes</span>
+      </a>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <div class="card">
+          <div class="card-header " style="text-align:center;">
+            <h4>Modifier une categorie</h4>
+          </div>
+          <div class="card-body">
+            <flash-messages></flash-messages>
+            <form #categorietForm="ngForm" (ngSubmit)="onEditTheme(categorietForm)" enctype="multipart/form-data">
+              <div class="form-group" style="text-align:center;">
+                <label for="nom">Nom <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" name="name" [ngModel]="theme?.name" (ngModel)="(theme?.name)"
+                  #name="ngModel" [ngClass]="{
+                            'is-invalid': (name.errors && name.touched) || (errorNom && !valueNom  )
+                          }" required (keyup)='clickNom($event)' />
+                <div class="invalid-feedback" [hidden]="!name.errors?.required && !errorNom">
+                  le champs nom est obligatoire
+                </div>
+              </div>
+              <!-- <div class="form-group" style="text-align:center;">
+                        <label for="duree_moyenne">duree_moyenne: </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="duree_moyenne"
+                          [ngModel]="categorie?.delay"
+                          (ngModel)="(categorie?.delay)"
+                          #delay="ngModel"
+                          [ngClass]="{
+                            'is-invalid': delay.errors && delay.touched
+                          }"
+                          required
+                        />
+                        <div
+                          class="invalid-feedback"
+                          [hidden]="!delay.errors?.required"
+                        >
+                          le champs duree moyenne est obligatoire
+                        </div>
+                      </div> -->
+              <div class="row" style="display: center; align-items: center; justify-content: center;">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-block btn-success">
+                    <i class="fas fa-plus"></i> Modifier
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
