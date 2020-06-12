@@ -33,7 +33,7 @@ export class StudyCasesComponent implements OnInit {
   gridApi
   gridColumnApi;
   value;
-  metiers: import("c:/Users/T440/Desktop/MaintPro/maintpro/src/app/models/metiers").Metier[];
+  metiers: any;
   themes: Theme[];
 
   constructor(private studyCaseService: StudyCaseService,
@@ -42,7 +42,7 @@ export class StudyCasesComponent implements OnInit {
     private questionService: QuestionService,
     private themeService: ThemeService,
     private flashMessage: FlashMessagesService,
-    private router: Router, ) { }
+    private router: Router,) { }
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

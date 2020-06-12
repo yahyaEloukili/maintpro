@@ -61,10 +61,12 @@ export class UsersComponent implements OnInit {
 
     });
     this.columnDefs = [
-      { headerName: 'nom', field: "nom", sortable: true, filter: true, checkboxSelection: true, width: "180" },
+      { headerName: 'Prenom', field: "prenom", sortable: true, filter: true, checkboxSelection: true, width: "180" },
+      { headerName: 'Nom', field: "nom", sortable: true, filter: true, width: "180" },
+
       // { headerName: 'matricule', field: "matricule", sortable: true, filter: true, width: "330" },
-      { headerName: 'email', field: "email", sortable: true, filter: true },
-      { headerName: 'role', field: "role", sortable: true, filter: true },
+      { headerName: 'Email', field: "email", sortable: true, filter: true },
+      { headerName: 'Role', field: "role", sortable: true, filter: true },
 
       { headerName: 'Actions', field: "id", sortable: true, filter: true, cellRenderer: "id", width: "90" },
 
