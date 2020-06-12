@@ -18,12 +18,12 @@
               <div class="controls">
                 <ng-container formGroupName="question">
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                       <div class="form-group">
                         <label for="form_enonce">Énoncé*</label>
-                        <textarea formControlName="enonce" id="form_enonce" name="message" class="form-control"
+                        <input formControlName="enonce" id="form_enonce" name="message" class="form-control"
                           placeholder="Write your message here." rows="4" required="required"
-                          data-error="Please, leave us a message."></textarea>
+                          data-error="Please, leave us a message.">
                         <em style="color: red"
                           *ngIf="!validChamp('enonce') && questionForm.controls.enonce.errors.required">Champ
                           Obligatoire*</em>
@@ -79,7 +79,10 @@
                       <tbody>
                         <tr *ngFor="let ans of mainquestion.answers" [ngClass]="ans.correct?'success':'danger'">
                           <td>{{ans.text}}</td>
-                          <td>{{ans.correct?'Correcte':'Incorrecte'}}</td>
+                          <td>
+                            <span [style.color]="ans.correct? '#5cb85c':'#bb2124'">{{ans.correct?'Correcte':'Incorrecte'}}</span>
+                            <fa-icon size="lg" *ngIf="ans.correct" style="color: #5cb85c;margin-left: 3px" [icon]="faCheckCircle"></fa-icon>
+                          </td>
                           <td>
                             <!--a target="_blank" rel="noopener noreferrer" [href]="'/editanswer/' + ans.id">Edit</a-->
                             <button type="button" style="margin-left: 9px" (click)="deleteanswer(ans.id)"
@@ -94,47 +97,53 @@
 
                   <fieldset style="padding: 0 12px;border: grey solid 2px;">
                     <legend>
-                      Ajouter des Réponses
-                      <button (click)="reponseFormFactory()" style="width: 30px;height: 30px;padding-right: 25px"
-                        class="glow-on-hover" type="button"><strong style="font-size: 30px;">+</strong></button>
+                      <div style="display: flex;flex-direction: row">
+                        Ajouter des Réponses ({{repForm?.length}})
+                        <button (click)="reponseFormFactory()" style="background-color:#163441;margin-left: 8px;display:flex;flex-direction:row;align-items: center;border-radius: 25px;width: 30px;height: 30px;padding-right: 25px;"
+                                class="glow-on-hover" type="button"><strong style="color: #fdb82f;font-size: 30px;">+</strong></button>
+                      </div>
                     </legend>
                     <ng-container formGroupName="reponses">
                       <div *ngFor="let item of FormArray.controls;let i = index" [formGroupName]="i" class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                           <div class="form-group">
                             <label for="form_enonce_rep">
                               Énoncé*
+                              <fa-icon (click)="removeSouEqForm(i)" [icon]="faTrash" style="font-size: 18px;cursor: pointer"></fa-icon>
+
                               <i (click)="removeSouEqForm(i)" style="font-size: 15px;cursor: pointer"
                                 class="glyphicon glyphicon-trash"></i>
                             </label>
-                            <textarea formControlName="repenonce" id="form_enonce_rep" name="message"
+                            <input formControlName="repenonce" id="form_enonce_rep" name="message"
                               class="form-control" placeholder="Write your message here." rows="4" required="required"
-                              data-error="Please, leave us a message."></textarea>
+                              data-error="Please, leave us a message.">
                             <em style="color: red"
                               *ngIf="!validArrayChamp('repenonce',i) && item.controls.repenonce.errors.required">Champ
                               Obligatoire*</em>
                             <em style="color: red"
                               *ngIf="!validArrayChamp('repenonce',i) && item.controls.repenonce.errors.minlength">Minimum
                               de 7 charactéres*</em>
-                          </div><br>
-                          <div style="margin-left: -5px" class="col-md-1">
+                          </div>
+                          <div style="margin-left: -5px" class="col-md-4">
                             <app-checkcorrect [formArraycheck]="item.controls.repcorrect" [idcheck]="i+50">
                             </app-checkcorrect>
                           </div>
-                          <div style="margin: -25px 0 0 -15px;padding: 0px;" class="col-md-5">
+                          <!--div style="margin: -25px 0 0 -15px;padding: 0px;" class="col-md-5">
                             <h5 [style.color]="item.controls.repcorrect.value?'#2dd36f':'#eb445a'">
                               {{item.controls.repcorrect.value?'Correcte':'Incorrecte'}}
                             </h5>
-                          </div>
+                          </div-->
                         </div>
                       </div>
                     </ng-container>
                     <hr style="color: gainsboro;">
+                    <div class="row">
                     <div class="col-md-4"></div>
-                    <div style="margin-bottom: 5px" class="col-md-4">
+                    <div style="margin-bottom: 5px" class="col-md-5">
                       <input *ngIf="FormArray.length > 0" (click)="clearArrayForm()"
                         class="btn btn-danger btn-send pt-2 btn-block " value="clear All"> </div>
-                    <div class="col-md-4"></div>
+                    <div class="col-md-3"></div>
+                    </div>
                   </fieldset>
                 </div>
                 <br />
@@ -159,26 +168,22 @@
     <div class="body">
       <form [formGroup]="modalForm">
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-8">
             <label for="form_enonce_rep">
               Énoncé*
             </label>
-            <textarea formControlName="modalenonce" id="form_enonce_rep_modal" name="message" class="form-control"
+            <input formControlName="modalenonce" id="form_enonce_rep_modal" name="message" class="form-control"
               placeholder="Write your message here." rows="4" required="required"
-              data-error="Please, leave us a message."></textarea>
+              data-error="Please, leave us a message.">
             <em style="color: red;float: left"
               *ngIf="!validModalChamp('modalenonce') && modalForm.controls.modalenonce.errors.required">Champ
               Obligatoire*</em>
             <em style="color: red;float: left"
               *ngIf="!validModalChamp('modalenonce') && modalForm.controls.modalenonce.errors.minlength">Minimum de 7
               charactéres*</em>
-            <br>
-            <div style="margin: 30px 0 0 -13%" class="col-md-4">
+            <div style="margin: 23px 0 0 -25%" class="col-md-4">
               <app-checkcorrect [ischecked]="modalAns?.correct" [formArraycheck]="modalcheck" [idcheck]="'mod25'">
               </app-checkcorrect>
-              <h5 style="margin: -49px -100% 0px 0;" [style.color]="false?'#2dd36f':'#eb445a'">
-                {{false?'Correcte':'Incorrecte'}}
-              </h5>
             </div>
 
           </div>

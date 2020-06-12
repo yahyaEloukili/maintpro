@@ -30,10 +30,10 @@ export class StudyCasesComponent implements OnInit {
   @ViewChild("agGrid", { static: false }) agGrid: AgGridAngular;
   frameworkComponents;
   columnDefs;
-  gridApi
+  gridApi;
   gridColumnApi;
   value;
-  metiers: import("c:/Users/T440/Desktop/MaintPro/maintpro/src/app/models/metiers").Metier[];
+  metiers: any;
   themes: Theme[];
 
   constructor(private studyCaseService: StudyCaseService,

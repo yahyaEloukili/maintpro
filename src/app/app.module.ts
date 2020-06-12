@@ -42,6 +42,7 @@ import { DetailQuestionComponent } from './components/detail-question/detail-que
 import { ThemeQuestionComponent } from './components/theme-question/theme-question.component';
 import { ThemeCaseComponent } from './components/theme-case/theme-case.component';
 import { CaseDetailComponent } from './components/case-detail/case-detail.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +84,8 @@ import { CaseDetailComponent } from './components/case-detail/case-detail.compon
     AppRoutingModule,
     RouterModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [prod, AuthGuard, ExcelService],
   bootstrap: [AppComponent]

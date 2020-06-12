@@ -1,8 +1,8 @@
 export interface User {
   id: string;
-  nom: String;
-  email: String;
-  password: String;
+  nom: string;
+  email: string;
+  password: string;
   matricule: string;
   role: string;
   zoneId?: string;

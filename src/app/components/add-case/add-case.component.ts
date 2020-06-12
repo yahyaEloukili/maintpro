@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Form, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Theme } from '../../models2/theme';
 import { Metier } from '../../models2/metiers';
 import { ThemeService } from '../../services2/themes.service';
@@ -9,16 +9,22 @@ import { IQuestion, TypeQst } from '../../models2/question';
 import { IStudyCase } from '../../models2/studyCase';
 import { FlashMessagesService } from "angular2-flash-messages";
 import { StudyCaseService } from '../../services2/study-case.service';
-
+import {faTrash, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {cloneAbstractControl} from "./cloneAbstractControl";
+import {IAnswer} from "../../models2/answer";
+declare const $;
 @Component({
   selector: 'app-addstdcase',
   templateUrl: './add-case.component.html',
   styleUrls: ['./add-case.component.scss'],
 })
 export class AddCaseComponent implements OnInit {
+  faTrash = faTrash;
+  faPlus = faPlus;
   qstForm: FormGroup;
   repForm: FormArray;
   GlobalForm: FormGroup;
+  PopFormGrp: FormGroup;
   title: FormControl;
   enonce: FormControl;
   theme: FormControl;
@@ -28,6 +34,7 @@ export class AddCaseComponent implements OnInit {
   themeLoading = false;
   metierLoading = false;
   isLoading = false;
+  public activeAnsModal: number;
   constructor(private themeService: ThemeService,
     private flashService: FlashMessagesService,
     private metierService: MetierService,
@@ -35,6 +42,12 @@ export class AddCaseComponent implements OnInit {
     private quetionService: QuestionService) { }
 
   ngOnInit() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#exampleModalScrollable').on('hidden.bs.modal', (event) => {
+      // console.log(event);
+      (this.PopFormGrp.get('repArray') as FormArray).clear();
+      this.PopFormGrp.reset();
+    });
     this.theme = new FormControl('', [
       Validators.required,
     ]);
@@ -49,6 +62,9 @@ export class AddCaseComponent implements OnInit {
       Validators.required,
       Validators.minLength(7),
     ]);
+    this.PopFormGrp = new FormGroup({
+      repArray: (new FormArray([])),
+    });
     this.repForm = new FormArray([]);
     this.reponseFormFactory();
     this.qstForm = new FormGroup({
@@ -91,10 +107,24 @@ export class AddCaseComponent implements OnInit {
     const repcorrect = new FormControl(false, [
       Validators.required,
     ]);
+    const repArray = new FormArray([]);
+    const form = new FormGroup({
+      repenonce, repcorrect, repArray
+    });
+    this.repForm.push(form);
+  }
+  popFormFactory() {
+    const repenonce = new FormControl('', [
+      Validators.required,
+      Validators.minLength(7),
+    ]);
+    const repcorrect = new FormControl(false, [
+      Validators.required,
+    ]);
     const form = new FormGroup({
       repenonce, repcorrect
     });
-    this.repForm.push(form);
+    (this.PopFormGrp.get('repArray') as FormArray).push(form);
   }
   validArrayChamp(controlName, index) {
     const ff = (this.GlobalForm.get('reponses') as FormArray);
@@ -103,6 +133,10 @@ export class AddCaseComponent implements OnInit {
   validChamp(controlName) {
     const ff = (this.GlobalForm.get('question') as FormGroup);
     return ff.get(controlName).valid || (!ff.get(controlName).touched && !ff.get(controlName).dirty);
+  }
+  validPopArrayChamp(controlName, index) {
+    const ff = (this.PopFormGrp.get('repArray') as FormArray);
+    return ff.at(index).get(controlName).valid || (!ff.at(index).get(controlName).touched && !ff.at(index).get(controlName).dirty);
   }
 
   submitform() {
@@ -118,8 +152,17 @@ export class AddCaseComponent implements OnInit {
         const qst: IQuestion = {
           text: this.FormArray.at(i).get('repenonce').value,
           metierId: this.qstForm.controls.metier.value,
-          type: TypeQst.CASE
+          type: TypeQst.CASE,
+          answers: []
         };
+        const ff = (this.FormArray.at(i).get('repArray') as FormArray);
+        for (let j = 0; j < ff.length; j++) {
+          const nestedans: IAnswer = {
+            text: ff.at(j).get('repenonce').value,
+            correct: ff.at(j).get('repcorrect').value
+          };
+          qst.answers.push(nestedans);
+        }
         studyCase.questions.push(qst);
       }
       console.log(studyCase);
@@ -160,5 +203,37 @@ export class AddCaseComponent implements OnInit {
 
   clearArrayForm() {
     this.FormArray.clear();
+  }
+
+  addReponseArrayPop(i: number) {
+    this.handleCloseModal();
+    this.activeAnsModal = i;
+    // cloneAbstractControl();
+    const ff = (this.repForm.at(this.activeAnsModal).get('repArray') as FormArray);
+    if (ff.length) {
+      this.PopFormGrp.setControl('repArray', cloneAbstractControl(ff));
+    }
+  }
+
+  removePop(i: number) {
+    (this.PopFormGrp.get('repArray') as FormArray).removeAt(i);
+  }
+
+  handleCloseModal() {
+    (this.PopFormGrp.get('repArray') as FormArray).clear();
+    this.PopFormGrp.reset();
+  }
+  handlesubmitModal() {
+    if (this.PopFormGrp.valid) {
+      const ff = (this.PopFormGrp.get('repArray') as FormArray);
+      // (this.repForm.at(this.activeAnsModal).get('repArray') as FormArray).push(ff);
+      (this.repForm.at(this.activeAnsModal) as FormGroup).setControl('repArray', cloneAbstractControl(ff));
+      $('#exampleModalScrollable').modal('toggle');
+    } else {
+      this.flashService.show('form non valide!!', {
+        cssClass: "alert-danger",
+        timeout: 3000
+      });
+    }
   }
 }

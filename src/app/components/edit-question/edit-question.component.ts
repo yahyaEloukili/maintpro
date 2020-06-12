@@ -5,12 +5,13 @@ import { Theme } from '../../models2/theme';
 import { Metier } from '../../models2/metiers';
 import { QuestionService } from '../../services2/questions.service';
 import { AnswersService } from '../../services2/answers.service';
-import { FlashMessagesService } from "angular2-flash-messages";
+import { FlashMessagesService } from 'angular2-flash-messages';
 import { IQuestion, TypeQst } from '../../models2/question';
 import { IAnswer } from '../../models2/answer';
 import { MetierService } from '../../services2/metiers.service';
 import { delay } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import {faTrash, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-updateqst',
@@ -18,7 +19,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./edit-question.components.scss'],
 })
 export class EditQuestionComponent implements OnInit {
-
+  faTrash = faTrash;
+  faCheckCircle = faCheckCircle;
   qstForm: FormGroup;
   modalForm: FormGroup;
   repForm: FormArray;

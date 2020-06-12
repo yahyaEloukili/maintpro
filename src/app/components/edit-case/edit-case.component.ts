@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnswersService } from '../../services2/answers.service';
 import { StudyCaseService } from '../../services2/study-case.service';
 import { IStudyCase } from '../../models2/studyCase';
+import {faTrash} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-updatestdcase',
@@ -18,7 +19,7 @@ import { IStudyCase } from '../../models2/studyCase';
   styleUrls: ['./edit-case.component.scss'],
 })
 export class EditCaseComponent implements OnInit {
-
+  faTrash = faTrash;
 
   qstForm: FormGroup;
   modalForm: FormGroup;
@@ -244,6 +245,6 @@ export class EditCaseComponent implements OnInit {
   }
 
   openEditPage($event, id: string) {
-    window.open(`/updateqst/${id}`);
+    window.open(`/editQuestion/${id}`);
   }
 }

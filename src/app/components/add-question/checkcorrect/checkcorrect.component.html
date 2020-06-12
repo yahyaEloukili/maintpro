@@ -1,5 +1,14 @@
-<input [checked]="ischecked" (change)="checked($event)" type="checkbox" [id]="idcheck + '_checkbox'" class="_checkbox">
-<!-- don't change for attribute,its working even if red or warning in ide (editor) -->
-<label for="{{idcheck + '_checkbox'}}">
-  <div id="tick_mark"></div>
-</label>
+<div class="div-cont" >
+  <br>
+  <h4  style="position: relative;left: 78px;top: 18px;z-index: 3;">
+    <span [style.color]="ischecked?'#2dd36f':'#eb445a'">
+      {{ischecked?'Correcte':'Incorrecte'}}
+    </span>
+  </h4>
+  <input [checked]="ischecked" (change)="checked($event)" type="checkbox" [id]="idcheck + '_checkbox'" class="_checkbox">
+  <!-- don't change for attribute,its working even if red or warning in ide (editor) -->
+  <label for="{{idcheck + '_checkbox'}}">
+    <div id="tick_mark"></div>
+  </label>
+</div>
+

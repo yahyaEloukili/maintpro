@@ -12,10 +12,16 @@ export class CheckcorrectComponent implements OnInit {
   @Input() formArraycheck: FormControl;
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.formArraycheck) {
+      this.ischecked = this.formArraycheck.value;
+    }
+  }
 
   checked($event: Event) {
     // @ts-ignore
     this.formArraycheck.setValue($event.target.checked);
+    // @ts-ignore
+    this.ischecked = $event.target.checked;
   }
 }

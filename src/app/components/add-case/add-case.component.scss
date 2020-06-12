@@ -89,3 +89,23 @@ legend {
   50% { background-position: 400% 0; }
   100% { background-position: 0 0; }
 }
+.bs-tooltip-auto[x-placement^=bottom] .arrow::before,
+.bs-tooltip-bottom .arrow::before {
+  border-bottom-color: #f00; /* Red */
+}
+
+.tooltip-arrow,
+.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
+.tooltip.danger .tooltip-inner          { background-color:    #d9534f; }
+.tooltip.danger.top > .tooltip-arrow    { border-top-color:    #d9534f; }
+.tooltip.danger.right > .tooltip-arrow  { border-right-color:  #d9534f; }
+.tooltip.danger.bottom > .tooltip-arrow { border-bottom-color: #d9534f; }
+.tooltip.danger.left > .tooltip-arrow   { border-left-color:   #d9534f; }
+
+.tooltip-primary~.tooltip>.tooltip-inner {
+  background-color: blue;
+}
+
+.tooltip-primary~.tooltip>.tooltip-arrow {
+  border-bottom-color: blue;
+}

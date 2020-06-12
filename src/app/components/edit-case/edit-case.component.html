@@ -17,7 +17,7 @@
               <div class="controls">
                 <ng-container formGroupName="question">
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                       <div class="form-group">
                         <label for="form_title">Title*</label>
                         <input formControlName="title" id="form_title" name="message" class="form-control"
@@ -30,12 +30,12 @@
                           caractères*</em>
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                       <div class="form-group">
-                        <label for="form_enonce">Énoncé*</label>
-                        <textarea formControlName="enonce" id="form_enonce" name="message" class="form-control"
+                        <label for="form_enonce">Problématique*</label>
+                        <input formControlName="enonce" id="form_enonce" name="message" class="form-control"
                           placeholder="Write your message here." rows="4" required="required"
-                          data-error="Please, leave us a message."></textarea>
+                          data-error="Please, leave us a message.">
                         <em style="color: red"
                           *ngIf="!validChamp('enonce') && questionForm.controls.enonce.errors.required">Champ
                           Obligatoire*</em>
@@ -106,9 +106,11 @@
 
                   <fieldset style="padding: 0 12px;border: grey solid 2px;">
                     <legend>
-                      Ajouter des Questions
-                      <button (click)="reponseFormFactory()" style="width: 30px;height: 30px;padding-right: 25px"
-                        class="glow-on-hover" type="button"><strong style="font-size: 30px;">+</strong></button>
+                      <div style="display: flex;flex-direction: row">
+                        Ajouter des Questions ({{repForm?.length}})
+                        <button (click)="reponseFormFactory()" style="background-color:#163441;margin-left: 8px;display:flex;flex-direction:row;align-items: center;border-radius: 25px;width: 30px;height: 30px;padding-right: 25px;"
+                                class="glow-on-hover" type="button"><strong style="color: #fdb82f;font-size: 30px;">+</strong></button>
+                      </div>
                     </legend>
                     <ng-container formGroupName="reponses">
                       <div *ngFor="let item of FormArray.controls;let i = index" [formGroupName]="i" class="row">
@@ -116,12 +118,11 @@
                           <div class="form-group">
                             <label for="form_enonce_rep">
                               Énoncé*
-                              <i (click)="removeSouEqForm(i)" style="font-size: 15px;cursor: pointer"
-                                class="glyphicon glyphicon-trash"></i>
+                              <fa-icon (click)="removeSouEqForm(i)" [icon]="faTrash" style="font-size: 18px;cursor: pointer"></fa-icon>
                             </label>
-                            <textarea formControlName="repenonce" id="form_enonce_rep" name="message"
+                            <input formControlName="repenonce" id="form_enonce_rep" name="message"
                               class="form-control" placeholder="Write your message here." rows="4" required="required"
-                              data-error="Please, leave us a message."></textarea>
+                              data-error="Please, leave us a message.">
                             <em style="color: red"
                               *ngIf="!validArrayChamp('repenonce',i) && item.controls.repenonce.errors.required">Champ
                               Obligatoire*</em>
@@ -133,11 +134,13 @@
                       </div>
                     </ng-container>
                     <hr style="color: gainsboro;">
-                    <div class="col-md-4"></div>
-                    <div style="margin-bottom: 5px" class="col-md-4">
-                      <input *ngIf="FormArray.length > 0" (click)="clearArrayForm()"
-                        class="btn btn-danger btn-send pt-2 btn-block " value="clear All"> </div>
-                    <div class="col-md-4"></div>
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div style="margin-bottom: 5px" class="col-md-5">
+                        <input *ngIf="FormArray.length > 0" (click)="clearArrayForm()"
+                               class="btn btn-danger btn-send pt-2 btn-block " value="clear All"> </div>
+                      <div class="col-md-3"></div>
+                    </div>
                   </fieldset>
                 </div>
                 <br />

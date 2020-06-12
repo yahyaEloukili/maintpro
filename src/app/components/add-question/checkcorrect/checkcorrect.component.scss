@@ -11,10 +11,10 @@
 
 label
 {
-  position: absolute;
+    position: absolute;
   top: 50%;
-  right: 0;
-  left: 0;
+  right: auto;
+  left: auto;
   width: 30px;
   height: 30px;
   margin: 0 auto;
@@ -162,4 +162,35 @@ label {
   transition: 0.2s ease transform, 0.2s ease background-color, 0.2s ease box-shadow;
   overflow: hidden;
   z-index: 1;
+}
+
+.div-cont {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  top: -35px;
+  bottom: 0;
+  right: auto;
+  left: 32em;
+  @media (max-width: 1350px) {
+    left: 28em;
+    .div-cont h4 {
+      font-size: 14px;
+      left: 65px;
+    }
+  }
+  @media (max-width: 1100px) {
+    left: 22em;
+    .div-cont h4 {
+      font-size: 12px;
+      left: 50px;
+    }
+  }
+  @media (max-width: 900px) {
+    left: 18em;
+    .div-cont h4 {
+      font-size: 12px;
+      left: 45px;
+    }
+  }
 }

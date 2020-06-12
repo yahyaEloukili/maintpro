@@ -8,6 +8,8 @@ import { IQuestion, TypeQst } from '../../models2/question';
 import { IAnswer } from '../../models2/answer';
 import { FlashMessagesService } from "angular2-flash-messages";
 import { MetierService } from '../../services2/metiers.service';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+declare const $;
 
 @Component({
   selector: 'app-question',
@@ -15,6 +17,7 @@ import { MetierService } from '../../services2/metiers.service';
   styleUrls: ['./add-question.component.scss'],
 })
 export class AddQuestionComponent implements OnInit {
+  faTrash = faTrash;
   qstForm: FormGroup;
   repForm: FormArray;
   GlobalForm: FormGroup;
@@ -71,6 +74,7 @@ export class AddQuestionComponent implements OnInit {
   }
   removeSouEqForm(i: number) {
     this.repForm.removeAt(i);
+    $('.card.mt-2.mx-auto.p-4.bg-light').height(+($('fieldset').height())  + 450 );
   }
   get questionForm() {
     return this.GlobalForm.get('question') as FormGroup;
@@ -86,6 +90,7 @@ export class AddQuestionComponent implements OnInit {
     const form = new FormGroup({
       repenonce, repcorrect
     });
+    $('.card.mt-2.mx-auto.p-4.bg-light').height(+($('fieldset').height())  + 450 );
     this.repForm.push(form);
   }
   validArrayChamp(controlName, index) {
@@ -155,5 +160,6 @@ export class AddQuestionComponent implements OnInit {
 
   clearArrayForm() {
     this.FormArray.clear();
+    $('.card.mt-2.mx-auto.p-4.bg-light').height(+($('fieldset').height())  + 450 );
   }
 }
