@@ -33,12 +33,21 @@ export class AppComponent {
     return false;
   }
   ngOnInit(): void {
+    console.log(localStorage.getItem("expire"));
+    let expire = localStorage.getItem("expire");
+
+    setTimeout(() => {
+      localStorage.clear();
+      this.router.navigate(["/login"]);
+
+
+    }, parseInt(expire))
+
+
     this.authService.loadUser();
     if (this.authService.user) { this.user = this.authService.user.nom; }
   }
   refrech(ev) {
-    this.appareilService.getAppareils().subscribe(appreils => {
-      ev.api.setRowData(appreils.data);
-    })
+
   }
 }

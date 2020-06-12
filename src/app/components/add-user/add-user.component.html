@@ -25,7 +25,25 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 " style="text-align: center;">
+          <div class="col-md-6 ">
+            <div class="form-group">
+              <label>Prenom <span>*</span> </label>
+              <input name="prenom" type="text" class="form-control" [(ngModel)]="user.prenom" #prenom="ngModel"
+                [ngClass]="{
+                        'is-invalid': (prenom.errors && prenom.touched) || (errorPrenom && !valuePrenom  )
+                      }" required (keyup)='clickPrenom($event)' />
+              <div class="invalid-feedback" [hidden]="!prenom.errors?.required && !errorPrenom">
+                Le champs prenom est obligatoire
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Email <span>*</span> </label>
               <input name="email" class="form-control" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{
@@ -41,10 +59,6 @@
               </div>
             </div>
           </div>
-
-        </div>
-
-        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label>Role <span>*</span> </label>
@@ -59,10 +73,27 @@
               </div>
             </div>
           </div>
-
         </div>
 
+        <div class="row">
 
+          <div class="col-md-6">
+            <div class="form-group">
+
+
+              <label>Privilege de: </label>
+              <input name="from" type="date" class="form-control" [(ngModel)]="user.from" #from="ngModel" />
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Privilege à :</label>
+              <input name="to" type="date" class="form-control" [(ngModel)]="user.to" #to="ngModel" />
+            </div>
+
+          </div>
+        </div>
 
 
 

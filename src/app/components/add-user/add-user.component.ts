@@ -18,14 +18,19 @@ export class AddUserComponent implements OnInit {
   user: User = {
     id: "",
     nom: "",
+    prenom: "",
     email: "",
     password: "",
     matricule: "",
-    role: ""
+    role: "",
+    from: "",
+    to: ""
   };
 
   errorNom = false;
   valueNom = false;
+  errorPrenom = false;
+  valuePrenom = false;
   errorEmail = false;
   valueEmail = false;
   errorRole = false;
@@ -38,6 +43,7 @@ export class AddUserComponent implements OnInit {
   role: string;
   zones: any[];
   indice: any;
+  hidden: boolean;
   constructor(
 
     private userService: UserService,
@@ -57,10 +63,13 @@ export class AddUserComponent implements OnInit {
     return false;
   }
   ngOnInit(): void {
-
+    this.hidden = true;
   }
   clickNom(ev) {
     this.valueNom = true;
+  }
+  clickPrenom(ev) {
+    this.valuePrenom = true;
   }
   clickEmail(ev) {
     this.valueEmail = true;
@@ -77,6 +86,12 @@ export class AddUserComponent implements OnInit {
     if (form.valid) {
 
       form.value.role = this.role;
+      if (!form.value.from) {
+        form.value.from = null;
+      }
+      if (!form.value.to) {
+        form.value.to = null;
+      }
       this.userService.addUser(form.value).subscribe(
         userData => {
           if (userData.success) {
@@ -110,6 +125,11 @@ export class AddUserComponent implements OnInit {
         this.adding = false;
 
       }
+      if (!form.value.prenom) {
+        this.errorPrenom = true;
+        this.adding = false;
+
+      }
       if (!form.value.email) {
         this.adding = false;
         this.errorEmail = true;
@@ -125,6 +145,13 @@ export class AddUserComponent implements OnInit {
   }
 
   setRole(ev) {
+
     this.role = ev;
+    if (ev === 'admin') {
+
+    }
+    else {
+
+    }
   }
 }

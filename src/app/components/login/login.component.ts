@@ -34,24 +34,80 @@ export class LoginComponent implements OnInit {
       data => {
 
         if (valid && data.success) {
-          this.authService.storeUserData(data);
+
+          if (data.user.from && data.user.to) {
+            if ((new Date(data.user.from).getTime() <= new Date().getTime()) && (new Date(data.user.to).getTime() >= new Date().getTime())) {
+              this.authService.storeUserData(data, new Date(data.user.to).getTime() - new Date().getTime());
+
+              this.router.navigate(['/questions'])
+                .then(() => {
+                  window.location.reload();
+                });
+
+            }
+            else {
+              this.flashService.show("Non autorisé", {
+                cssClass: "alert-danger",
+                timeout: 3000
+              })
+            }
+          } else if (data.user.from && !data.user.to) {
+            if ((new Date(data.user.from).getTime() <= new Date().getTime())) {
+              this.authService.storeUserData(data, 22 * 24 * 60 * 60 * 1000);
+
+              this.router.navigate(['/questions'])
+                .then(() => {
+                  window.location.reload();
+                });
+
+            }
+            else {
+              this.flashService.show("Non autorisé", {
+                cssClass: "alert-danger",
+                timeout: 3000
+              })
+            }
+          } else if (data.user.to && !data.user.from) {
+            if ((new Date(data.user.to).getTime() >= new Date().getTime())) {
+              this.authService.storeUserData(data, new Date(data.user.to).getTime() - new Date().getTime());
+
+              this.router.navigate(['/questions'])
+                .then(() => {
+                  window.location.reload();
+                });
+
+            }
+            else {
+
+              this.flashService.show("Non autorisé", {
+                cssClass: "alert-danger",
+                timeout: 3000
+              })
+            }
+          } else {
+            console.log("object");
+            this.authService.storeUserData(data, 22 * 24 * 60 * 60 * 1000);
+            this.router.navigate(['/questions'])
+              .then(() => {
+                window.location.reload();
+              });
+          }
 
 
-          this.router.navigate(['/questions'])
-            .then(() => {
-              window.location.reload();
-            });
 
         }
       },
       error => {
-       
+
         this.flashService.show(error.error.error, {
           cssClass: "alert-danger",
           timeout: 3000
         })
       }
     );
+  }
+  setRole(ev) {
+
   }
   onResetClicked() {
     this.router.navigate(["/resetPassword"]);

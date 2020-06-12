@@ -10,6 +10,7 @@ import { tokenNotExpired } from "angular2-jwt";
 })
 export class AuthService {
   authToken: any = false;
+  public expireIn: any;
   user: any;
   constructor(private http: HttpClient, private prod: prod) { }
   registerUser(user): Observable<{ success: boolean; data: any }> {
@@ -36,7 +37,8 @@ export class AuthService {
       user
     );
   }
-  storeUserData(data) {
+  storeUserData(data, expire?) {
+    localStorage.setItem('expire', expire);
     localStorage.setItem(`token`, data.token);
     localStorage.setItem(`user`, JSON.stringify(data.user));
     this.authToken = data.token;

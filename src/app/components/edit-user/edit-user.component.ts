@@ -17,21 +17,27 @@ export class EditUserComponent implements OnInit {
   user: User = {
     id: "",
     nom: "",
+    prenom: "",
     email: "",
     matricule: "",
     password: "",
     role: "",
-    zoneId: ""
+    zoneId: "",
+    from: "",
+    to: ""
   };
   id: string = "";
   zoneId: string;
   role: string;
   zones: any[];
   errorNom = false;
+  errorPrenom = false;
   errorEmail = false;
   valueNom = false;
+  valuePrenom = false;
   valueEmail = false;
   adding: boolean = false;
+  hidden: boolean;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -51,12 +57,20 @@ export class EditUserComponent implements OnInit {
   clickNom(ev) {
     this.valueNom = true;
   }
+  clickPrenom(ev) {
+    this.valuePrenom = true;
+  }
   clickEmail(ev) {
     this.valueEmail = true;
   }
   ngOnInit(): void {
+
+    this.hidden = true;
+    this.hidden = true;
+
     this.id = this.route.snapshot.params["id"];
     this.userService.getUser(this.id).subscribe(user => {
+      console.log(user.data);
       this.user = user.data;
     });
 
@@ -88,6 +102,11 @@ export class EditUserComponent implements OnInit {
         this.adding = false;
 
       }
+      if (!value.prenom) {
+        this.errorPrenom = true;
+        this.adding = false;
+
+      }
       if (!value.email) {
         this.errorEmail = true;
         this.adding = false;
@@ -97,6 +116,16 @@ export class EditUserComponent implements OnInit {
   }
 
   setRole(ev) {
-    this.role = ev;
+
+    if (ev === 'admin') {
+
+      this.role = ev;
+      console.log(ev);
+    }
+    else {
+      this.role = ev;
+
+      console.log(ev);
+    }
   }
 }

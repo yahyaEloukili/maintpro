@@ -42,7 +42,7 @@ export class StudyCasesComponent implements OnInit {
     private questionService: QuestionService,
     private themeService: ThemeService,
     private flashMessage: FlashMessagesService,
-    private router: Router, ) { }
+    private router: Router,) { }
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
