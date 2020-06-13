@@ -79,7 +79,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <!--div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Privilege de: <span>*</span> </label>
@@ -97,6 +97,46 @@
                       (ngModel)="user.to" #to="ngModel" />
                   </div>
 
+                </div>
+              </div-->
+
+              <div  class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Privilege de: <span style="font-weight: bold;margin-left: 2px">{{selectedDateFrom | date:'medium'}}</span></label>
+                    <dl-date-time-picker
+                      maxView="month"
+                      minView="minute"
+                      [startDate]="today"
+                      minuteStep="10"
+                      name="from"
+                      [selectFilter]="startDatePickerFilter"
+                      [(ngModel)]="selectedDateFrom"
+                      [leftIconClass]="'fas fa-arrow-left'"
+                      [rightIconClass]="'fas fa-arrow-right'"
+                      [upIconClass]="'fas fa-arrow-up'"
+                    >
+                    </dl-date-time-picker>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Privilege a: <span style="font-weight: bold;margin-left: 2px">{{selectedDateTo | date:'medium'}}</span></label>
+                    <dl-date-time-picker
+                      [(ngModel)]="selectedDateTo"
+                      [selectFilter]="startDatePickerFilter"
+                      [leftIconClass]="'fas fa-arrow-left'"
+                      [rightIconClass]="'fas fa-arrow-right'"
+                      [startDate]="today"
+                      [upIconClass]="'fas fa-arrow-up'"
+                      maxView="month"
+                      minView="minute"
+                      minuteStep="5"
+                      name="to"
+                      startView="day"
+                    >
+                    </dl-date-time-picker>
+                  </div>
                 </div>
               </div>
 

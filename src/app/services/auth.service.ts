@@ -19,7 +19,7 @@ export class AuthService {
       user
     );
   }
-  authUser(user: any): Observable<{ success: boolean; data: any }> {
+  authUser(user: any): Observable<{ success: boolean; data: any } | any> {
     return this.http.post<{ success: boolean; data: any }>(
       `${this.prod.link}/auth/login`,
       user

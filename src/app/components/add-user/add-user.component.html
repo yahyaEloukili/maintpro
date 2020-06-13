@@ -75,7 +75,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <!--div *ngIf="false" class="row">
 
           <div class="col-md-6">
             <div class="form-group">
@@ -93,9 +93,67 @@
             </div>
 
           </div>
+        </div-->
+        <div  class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Privilege de: <span style="font-weight: bold;margin-left: 2px">{{selectedDateFrom | date:'medium'}}</span></label>
+            <dl-date-time-picker
+              maxView="month"
+              minView="minute"
+              minuteStep="10"
+              name="from"
+              [(ngModel)]="selectedDateFrom"
+              [leftIconClass]="'fas fa-arrow-left'"
+              [rightIconClass]="'fas fa-arrow-right'"
+              [upIconClass]="'fas fa-arrow-up'"
+            >
+            </dl-date-time-picker>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Privilege a: <span style="font-weight: bold;margin-left: 2px">{{selectedDateTo | date:'medium'}}</span></label>
+              <dl-date-time-picker
+                [(ngModel)]="selectedDateTo"
+                [selectFilter]="startDatePickerFilter"
+                [leftIconClass]="'fas fa-arrow-left'"
+                [rightIconClass]="'fas fa-arrow-right'"
+                [startDate]="today"
+                [upIconClass]="'fas fa-arrow-up'"
+                maxView="month"
+                minView="minute"
+                minuteStep="5"
+                name="to"
+                startView="day"
+              >
+              </dl-date-time-picker>
+          </div>
+          </div>
         </div>
 
-
+        <!--div class="form-group">
+          <label for="startDate">Start:</label>
+          <div class="input-group">
+            <input id="startDate" type="text" class="form-control" aria-label="Start date"
+                   dlDateTimeInput
+                   [dlDateTimeInputFilter]="startDateInputFilter"
+                   [(ngModel)]="startDate">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary dropdown-toggle start-date" type="button" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false"><i class="oi oi-calendar"></i></button>
+              <div class="dropdown-menu" (click)="keepDropDownOpen($event)">
+                <div style="width:360px;">
+                  <dl-date-time-picker [(ngModel)]="startDate" (change)="startDateSelected($event)"
+                                       [selectFilter]="startDatePickerFilter"></dl-date-time-picker>
+                </div>
+              </div>
+            </div>
+            <div class="invalid-feedback">
+              Please enter or choose a start time after the current time.
+            </div>
+          </div>
+        </div-->
 
         <div class="row" style="display: center; align-items: center; justify-content: center;">
           <div class="col-md-6">

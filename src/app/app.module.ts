@@ -43,6 +43,7 @@ import { ThemeQuestionComponent } from './components/theme-question/theme-questi
 import { ThemeCaseComponent } from './components/theme-case/theme-case.component';
 import { CaseDetailComponent } from './components/case-detail/case-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-datetimepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +86,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    DlDateTimeDateModule,
+    // DlDateTimeInputModule,
+    DlDateTimePickerModule,
   ],
   providers: [prod, AuthGuard, ExcelService],
   bootstrap: [AppComponent]

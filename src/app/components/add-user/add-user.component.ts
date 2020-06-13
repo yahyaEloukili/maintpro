@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import {Component, OnInit, ViewChild, ElementRef, AfterViewInit} from "@angular/core";
 import { User } from "../../models/user";
 
 
@@ -9,6 +9,15 @@ import "rxjs/add/operator/catch";
 
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
+import * as _moment from 'moment';
+import {unitOfTime} from 'moment';
+import {DateButton, DlDateTimePickerChange} from 'angular-bootstrap-datetimepicker';
+let moment = _moment;
+
+if ('default' in _moment) {
+  moment = _moment['default'];
+}
+declare const $;
 @Component({
   selector: "app-add-user",
   templateUrl: "./add-user.component.html",
@@ -44,8 +53,12 @@ export class AddUserComponent implements OnInit {
   zones: any[];
   indice: any;
   hidden: boolean;
+  selectedDateFrom: any;
+  selectedDateTo: any;
+  today = new Date();
+  disablePastDates = true;
   constructor(
-
+    private _elementRef: ElementRef,
     private userService: UserService,
     private flashService: FlashMessagesService,
     public authService: AuthService,
@@ -86,11 +99,15 @@ export class AddUserComponent implements OnInit {
     if (form.valid) {
 
       form.value.role = this.role;
-      if (!form.value.from) {
+      if (!this.selectedDateFrom) {
         form.value.from = null;
+      } else {
+        form.value.from = this.selectedDateFrom;
       }
-      if (!form.value.to) {
+      if (!this.selectedDateTo) {
         form.value.to = null;
+      } else {
+        form.value.to = this.selectedDateTo;
       }
       this.userService.addUser(form.value).subscribe(
         userData => {
@@ -154,4 +171,13 @@ export class AddUserComponent implements OnInit {
 
     }
   }
+  startDateInputFilter = (value: (number | null | undefined)) => {
+    return this.startDatePickerFilter({value} as DateButton, 'minute');
+  }
+  startDatePickerFilter = (dateButton: DateButton, viewName: string) => {
+    return true
+      ? dateButton.value >= moment().startOf(viewName as unitOfTime.StartOf).valueOf()
+      : true;
+  }
+  //////////////////////////// dateTimeLogic //////////////////////////////////
 }
