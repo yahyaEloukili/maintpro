@@ -46,7 +46,7 @@
 // }
 
 
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter, NgZone} from '@angular/core';
 import { ICellRendererAngularComp, AgGridAngular } from 'ag-grid-angular';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MetierService } from 'src/app/services/metiers.service';
@@ -63,6 +63,7 @@ export class CasesActionComponent implements OnInit, ICellRendererAngularComp {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private metierService: MetierService,
+    private zone: NgZone,
     private flashMessage: FlashMessagesService) { }
 
   ngOnInit(): void {
@@ -80,8 +81,10 @@ export class CasesActionComponent implements OnInit, ICellRendererAngularComp {
   }
   onClickEdit(ev) {
 
-    this.router.navigate([`/editCase/${this.cellValue}`]);
-
+    // this.router.navigate([`/editCase/${this.cellValue}`]);
+    this.zone.run(() => {
+      this.router.navigateByUrl(`/editCase/${this.cellValue}`);
+    });
   }
   onDetailClicked(ev) {
     {

@@ -12,6 +12,8 @@ import { MetierService } from '../../services2/metiers.service';
 import { delay } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import {faTrash, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
+import {IEditions} from "../../models2/Editions";
+import {EditionsService} from "../../services2/EditionsService";
 
 @Component({
   selector: 'app-updateqst',
@@ -39,11 +41,15 @@ export class EditQuestionComponent implements OnInit {
   public id: string;
   public currTheme: Metier;
   public modalAns: IAnswer;
+  private edition: FormControl;
+  public EditionModel: IEditions[];
+  public selectedEdition: any = [];
   constructor(private themeService: ThemeService,
     private metierService: MetierService,
     private quetionService: QuestionService,
     private flashService: FlashMessagesService,
     private router: Router,
+    private editionsService: EditionsService,
     private activeRoute: ActivatedRoute,
     private answerService: AnswersService) { }
 
@@ -55,6 +61,8 @@ export class EditQuestionComponent implements OnInit {
     ]);
     this.modalcheck = new FormControl(null, [
       Validators.required,
+    ]);
+    this.edition = new FormControl('', [
     ]);
     this.modalForm = new FormGroup({
       modalenonce: this.modalenonce
@@ -74,6 +82,7 @@ export class EditQuestionComponent implements OnInit {
       enonce: this.enonce,
       theme: this.theme,
       metier: this.metier,
+      edition: this.edition
     });
     this.GlobalForm = new FormGroup({
       question: this.qstForm,
@@ -81,6 +90,15 @@ export class EditQuestionComponent implements OnInit {
     });
     this.quetionService.getQuestionById(this.id).subscribe(s => {
       console.log(s.data);
+      this.editionsService.getEditions().subscribe(s1 => {
+        this.EditionModel = s1.data;
+        // @ts-ignore
+        this.selectedEdition = (s.data.editions as IEditions[]).map(el => {
+          el['display'] = el.name;
+          el['value'] = el.id;
+          return el;
+        });
+      });
       // @ts-ignore
       this.mainquestion = s.data;
       this.enonce.setValue(this.mainquestion.text);
@@ -134,11 +152,18 @@ export class EditQuestionComponent implements OnInit {
 
   submitform() {
     console.log(this.GlobalForm);
+    let editionselids;
+    if (this.qstForm.controls.edition.value && this.qstForm.controls.edition.value.length > 0) {
+      const editionsel: IEditions[] = this.qstForm.controls.edition.value || [];
+      editionselids = editionsel.map(el => el.id);
+      console.log(editionselids);
+    }
     if (this.GlobalForm.valid) {
       const question: IQuestion = {
         text: this.qstForm.controls.enonce.value,
         metierId: this.qstForm.controls.metier.value,
         code: this.mainquestion.code,
+        editions: editionselids || [],
         type: this.mainquestion.type
       };
       const answers = [];

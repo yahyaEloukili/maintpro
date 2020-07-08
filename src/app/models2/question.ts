@@ -1,4 +1,5 @@
 import {IAnswer} from './answer';
+import {IEditions} from "./Editions";
 
 export interface IQuestion {
     id?: string;
@@ -7,6 +8,7 @@ export interface IQuestion {
     metierId: string;
     studyCaseId?: string;
     image?: string[];
+    editions?: string[] | IEditions[];
     type: TypeQst;
     createdAt?: string;
     updatedAt?: string;

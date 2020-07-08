@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Theme } from '../../models2/theme';
 import { Metier } from '../../models2/metiers';
@@ -12,6 +12,8 @@ import { AnswersService } from '../../services2/answers.service';
 import { StudyCaseService } from '../../services2/study-case.service';
 import { IStudyCase } from '../../models2/studyCase';
 import {faTrash} from '@fortawesome/free-solid-svg-icons';
+import {IEditions} from "../../models2/Editions";
+import {EditionsService} from "../../services2/EditionsService";
 
 @Component({
   selector: 'app-updatestdcase',
@@ -40,13 +42,17 @@ export class EditCaseComponent implements OnInit {
   public currTheme: Metier;
   public modalAns: IQuestion;
   public title: FormControl;
+  private edition: FormControl;
+  public EditionModel: IEditions[] = [];
+  public selectedEdition: any;
   constructor(private themeService: ThemeService,
     private metierService: MetierService,
     private quetionService: QuestionService,
     private studycaseService: StudyCaseService,
-
+    private editionsService: EditionsService,
     private activeRoute: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     private answerService: AnswersService) { }
 
   ngOnInit() {
@@ -68,6 +74,8 @@ export class EditCaseComponent implements OnInit {
     this.theme = new FormControl('', [
       Validators.required,
     ]);
+    this.edition = new FormControl('', [
+    ]);
     this.metier = new FormControl('', [
       Validators.required,
     ]);
@@ -80,7 +88,8 @@ export class EditCaseComponent implements OnInit {
       enonce: this.enonce,
       title: this.title,
       theme: this.theme,
-      metier: this.metier
+      metier: this.metier,
+      edition: this.edition
     });
     this.GlobalForm = new FormGroup({
       question: this.qstForm,
@@ -102,6 +111,15 @@ export class EditCaseComponent implements OnInit {
             this.metiers = s1.data.filter(el => el.themeId === this.currTheme.themeId);
           }
         });
+      });
+      this.editionsService.getEditions().subscribe(s3 => {
+        // @ts-ignore
+        this.selectedEdition = (s.data.editions as IEditions[]).map(el => {
+          el['display'] = el.name;
+          el['value'] = el.id;
+          return el;
+        });
+        this.EditionModel = s3.data;
       });
     });
   }
@@ -142,11 +160,18 @@ export class EditCaseComponent implements OnInit {
 
   submitform() {
     console.log(this.GlobalForm);
+    let editionselids;
+    if (this.qstForm.controls.edition.value && this.qstForm.controls.edition.value.length > 0) {
+      const editionsel: IEditions[] = this.qstForm.controls.edition.value || [];
+      editionselids = editionsel.map(el => el.id);
+      console.log(editionselids);
+    }
     if (this.GlobalForm.valid) {
       const question: IStudyCase = {
         title: this.title.value,
         Problematic: this.qstForm.controls.enonce.value,
         metierId: this.qstForm.controls.metier.value,
+        editions: editionselids || [],
         code: this.mainquestion.code,
       };
       const questions = [];

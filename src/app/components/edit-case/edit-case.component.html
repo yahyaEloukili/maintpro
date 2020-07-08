@@ -1,4 +1,4 @@
-<div class="container">
+<div  class="container">
   <div class="col-md-3">
     <a [routerLink]="['/studyCases']" class="btn btn-secondary btn-block">
       <i class="fas fa-arrow-left"></i> Liste des études de cas
@@ -7,7 +7,7 @@
   <div class=" text-center mt-5 ">
     <h1>Modifier Study Case</h1>
   </div>
-  <div class="row ">
+  <div class="row first-row-exc">
     <div class="col-lg-12 mx-auto">
       <div class="card mt-2 mx-auto p-4 bg-light">
         <div class="card-body bg-light">
@@ -45,6 +45,23 @@
                       </div>
                     </div>
                   </div>
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <label>Editions/classification (optional)</label>
+                        <tag-input *ngIf="selectedEdition && EditionModel?.length > 0"
+                                   [(ngModel)]="selectedEdition"
+                                   placeholder="add Edition"
+                                   formControlName="edition"
+                                   [onlyFromAutocomplete]="true">
+                          <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                              [dynamicUpdate]="false"
+                                              [identifyBy]="'id'"
+                                              [displayBy]="'name'"
+                                              [autocompleteItems]="EditionModel">
+                          </tag-input-dropdown>
+                        </tag-input>
+                      </div>
+                    </div>
                   <div class="row">
                     <div class="col-md-6">
                       <label>Théme*</label>

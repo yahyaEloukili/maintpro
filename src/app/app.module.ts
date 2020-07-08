@@ -44,6 +44,8 @@ import { ThemeCaseComponent } from './components/theme-case/theme-case.component
 import { CaseDetailComponent } from './components/case-detail/case-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-datetimepicker';
+import {TagInputModule} from 'ngx-chips';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,8 +90,10 @@ import {DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-da
     HttpClientModule,
     FontAwesomeModule,
     DlDateTimeDateModule,
+    BrowserAnimationsModule,
     // DlDateTimeInputModule,
     DlDateTimePickerModule,
+    TagInputModule,
   ],
   providers: [prod, AuthGuard, ExcelService],
   bootstrap: [AppComponent]

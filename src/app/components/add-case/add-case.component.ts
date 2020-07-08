@@ -12,6 +12,8 @@ import { StudyCaseService } from '../../services2/study-case.service';
 import {faTrash, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {cloneAbstractControl} from "./cloneAbstractControl";
 import {IAnswer} from "../../models2/answer";
+import {IEditions} from "../../models2/Editions";
+import {EditionsService} from "../../services2/EditionsService";
 declare const $;
 @Component({
   selector: 'app-addstdcase',
@@ -34,14 +36,21 @@ export class AddCaseComponent implements OnInit {
   themeLoading = false;
   metierLoading = false;
   isLoading = false;
+  public EditionModel: IEditions[] ;
+  public selectedEdition: any = [];
   public activeAnsModal: number;
+  private edition: FormControl;
   constructor(private themeService: ThemeService,
     private flashService: FlashMessagesService,
     private metierService: MetierService,
     private studyCaseService: StudyCaseService,
+    private editionsService: EditionsService,
     private quetionService: QuestionService) { }
 
   ngOnInit() {
+    this.editionsService.getEditions().subscribe(s => {
+      this.EditionModel = s.data;
+    });
     $('[data-toggle="tooltip"]').tooltip();
     $('#exampleModalScrollable').on('hidden.bs.modal', (event) => {
       // console.log(event);
@@ -53,6 +62,8 @@ export class AddCaseComponent implements OnInit {
     ]);
     this.metier = new FormControl('', [
       Validators.required,
+    ]);
+    this.edition = new FormControl('', [
     ]);
     this.enonce = new FormControl('', [
       Validators.required,
@@ -71,7 +82,8 @@ export class AddCaseComponent implements OnInit {
       title: this.title,
       enonce: this.enonce,
       theme: this.theme,
-      metier: this.metier
+      metier: this.metier,
+      edition: this.edition
     });
     this.GlobalForm = new FormGroup({
       question: this.qstForm,
@@ -141,11 +153,18 @@ export class AddCaseComponent implements OnInit {
 
   submitform() {
     console.log(this.GlobalForm);
+    let editionselids;
+    if (this.qstForm.controls.edition.value && this.qstForm.controls.edition.value.length > 0) {
+      const editionsel: IEditions[] = this.qstForm.controls.edition.value || [];
+      editionselids = editionsel.map(el => el.id);
+      console.log(editionselids);
+    }
     if (this.GlobalForm.valid) {
       const studyCase: IStudyCase = {
         title: this.qstForm.controls.title.value,
         Problematic: this.qstForm.controls.enonce.value,
         metierId: this.qstForm.controls.metier.value,
+        editions: editionselids || [],
         questions: []
       };
       for (let i = 0; i < this.FormArray.length; i++) {
@@ -181,6 +200,7 @@ export class AddCaseComponent implements OnInit {
     } else {
       this.GlobalForm.markAllAsTouched();
     }
+
   }
 
   themeChange($event: Event) {

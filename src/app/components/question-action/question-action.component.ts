@@ -31,7 +31,7 @@
 // }
 
 
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter, NgZone} from '@angular/core';
 import { ICellRendererAngularComp, AgGridAngular } from 'ag-grid-angular';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MetierService } from 'src/app/services/metiers.service';
@@ -48,6 +48,7 @@ export class QuestionActionComponent implements OnInit, ICellRendererAngularComp
   constructor(private router: Router,
     private route: ActivatedRoute,
     private metierService: MetierService,
+    private zone: NgZone,
     private flashMessage: FlashMessagesService) { }
 
   ngOnInit(): void {
@@ -64,8 +65,9 @@ export class QuestionActionComponent implements OnInit, ICellRendererAngularComp
     return true;
   }
   onClickEdit(ev) {
-
-    this.router.navigate([`/editQuestion/${this.cellValue}`]);
+    this.zone.run(() => {
+      this.router.navigate([`/editQuestion/${this.cellValue}`]);
+    });
 
   }
   onDetailClicked(ev) {

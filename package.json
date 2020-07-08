@@ -38,6 +38,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.3",
     "moment": "^2.26.0",
+    "ngx-chips": "^2.1.0",
     "rxjs": "~6.5.4",
     "rxjs-compat": "^6.5.5",
     "select2": "4.0.0",

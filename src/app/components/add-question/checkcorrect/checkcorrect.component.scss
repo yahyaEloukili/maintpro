@@ -171,7 +171,7 @@ label {
   top: -35px;
   bottom: 0;
   right: auto;
-  left: 32em;
+  left: 30em;
   @media (max-width: 1350px) {
     left: 28em;
     .div-cont h4 {
@@ -179,18 +179,31 @@ label {
       left: 65px;
     }
   }
-  @media (max-width: 1100px) {
-    left: 22em;
+  @media (max-width: 1200px) {
+    left: 30em;
     .div-cont h4 {
       font-size: 12px;
       left: 50px;
     }
   }
-  @media (max-width: 900px) {
-    left: 18em;
+  @media (max-width: 1100px) {
+    left: 28em;
     .div-cont h4 {
       font-size: 12px;
       left: 45px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    left: 30em;
+    h4 {
+      display: none;
+    }
+  }
+  @media (max-width: 780px) {
+    left: 40em;
+    h4 {
+      display: none;
     }
   }
 }

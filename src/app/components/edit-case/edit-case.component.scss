@@ -123,10 +123,12 @@ legend {
   height: 50%;
 }
 
-.row {
+.row{
   margin-bottom: 15px !important;
 }
-
+.first-row-exc {
+  margin-bottom:unset !important;
+}
 textarea {
   font-size: 20px;
 }

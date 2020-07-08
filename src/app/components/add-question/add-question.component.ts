@@ -9,6 +9,8 @@ import { IAnswer } from '../../models2/answer';
 import { FlashMessagesService } from "angular2-flash-messages";
 import { MetierService } from '../../services2/metiers.service';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import {IEditions} from "../../models2/Editions";
+import {EditionsService} from "../../services2/EditionsService";
 declare const $;
 
 @Component({
@@ -26,15 +28,24 @@ export class AddQuestionComponent implements OnInit {
   metier: FormControl;
   themes: Theme[];
   metiers: Metier[];
+  public EditionModel: IEditions[] ;
+  public selectedEdition: any = [];
+  private edition: FormControl;
   themeLoading = false;
   metierLoading = false;
   isLoading = false;
   constructor(private themeService: ThemeService,
     private metierService: MetierService,
     private flashService: FlashMessagesService,
+    private editionsService: EditionsService,
     private quetionService: QuestionService) { }
 
   ngOnInit() {
+    this.editionsService.getEditions().subscribe(s => {
+      this.EditionModel = s.data;
+    });
+    this.edition = new FormControl('', [
+    ]);
     this.theme = new FormControl('', [
       Validators.required,
     ]);
@@ -50,7 +61,8 @@ export class AddQuestionComponent implements OnInit {
     this.qstForm = new FormGroup({
       enonce: this.enonce,
       theme: this.theme,
-      metier: this.metier
+      metier: this.metier,
+      edition: this.edition
     });
     this.GlobalForm = new FormGroup({
       question: this.qstForm,
@@ -104,11 +116,18 @@ export class AddQuestionComponent implements OnInit {
 
   submitform() {
     console.log(this.GlobalForm);
+    let editionselids;
+    if (this.qstForm.controls.edition.value && this.qstForm.controls.edition.value.length > 0) {
+      const editionsel: IEditions[] = this.qstForm.controls.edition.value || [];
+      editionselids = editionsel.map(el => el.id);
+      console.log(editionselids);
+    }
     if (this.GlobalForm.valid) {
       const question: IQuestion = {
         text: this.qstForm.controls.enonce.value,
         metierId: this.qstForm.controls.metier.value,
         type: TypeQst.SIMPLE,
+        editions: editionselids || [],
         answers: []
       };
       for (let i = 0; i < this.FormArray.length; i++) {

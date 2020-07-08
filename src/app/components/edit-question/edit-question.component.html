@@ -34,6 +34,22 @@
                     </div>
                   </div>
                   <div class="row">
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <label for="contact-form">Editions(optional)</label>
+                        <tag-input  formControlName="edition" [(ngModel)]="selectedEdition"
+                                   [onlyFromAutocomplete]="true">
+                          <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                              [dynamicUpdate]="false"
+                                              [identifyBy]="'id'"
+                                              [displayBy]="'name'"
+                                              [autocompleteItems]="EditionModel">
+                          </tag-input-dropdown>
+                        </tag-input>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <label>Théme*</label>
                       <span *ngIf="themeLoading" style="position: relative;top: 29px;">
